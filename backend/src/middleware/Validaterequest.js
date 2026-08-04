@@ -1,4 +1,4 @@
-const { validationResult } = require('express-validator');
+import { validationResult } from 'express-validator';
 
 // Runs after express-validator check() chains; short-circuits with 400 on failure
 const validateRequest = (req, res, next) => {
@@ -9,4 +9,4 @@ const validateRequest = (req, res, next) => {
   next();
 };
 
-module.exports = validateRequest;
+export default validateRequest;

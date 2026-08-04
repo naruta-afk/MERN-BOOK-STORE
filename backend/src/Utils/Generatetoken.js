@@ -1,5 +1,4 @@
-const jwt = require('jsonwebtoken');
-
+import jwt from 'jsonwebtoken';
 
 // Signs a JWT and sets it as an httpOnly cookie on the response
 const generateToken = (res, userId) => {
@@ -17,4 +16,4 @@ const generateToken = (res, userId) => {
   return token;
 };
 
-module.exports = generateToken;
+export default generateToken;

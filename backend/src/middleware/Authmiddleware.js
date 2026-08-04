@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const asyncHandler = require('./asyncHandler');
-const User = require('../models/User');
+import jwt from 'jsonwebtoken';
+import asyncHandler from './asyncHandler.js';
+import User from '../model/user.js';
 
 // Verifies JWT and attaches user to req.user
 const protect = asyncHandler(async (req, res, next) => {
@@ -44,4 +44,4 @@ const admin = (req, res, next) => {
   }
 };
 
-module.exports = { protect, admin };
+export { protect, admin };

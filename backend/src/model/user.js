@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-const adressShema = new mongoose.Schema(
-    
+const addressSchema = new mongoose.Schema(
     {
         street : String,
         city : String,
@@ -46,5 +45,22 @@ const userSchema = new mongoose.Schema(
 
 );
 
+userSchema.pre('save', function(next) {
+  if (!this.isModified('password')) return next();
+
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) return next(err);
+
+    bcrypt.hash(this.password, salt, (hashErr, hash) => {
+      if (hashErr) return next(hashErr);
+      this.password = hash;
+      next();
+    });
+  });
+});
+
+userSchema.methods.matchPassword = async function(enteredPassword) {
+  return bcrypt.compare(enteredPassword, this.password);
+};
 
 export default mongoose.model("User", userSchema);

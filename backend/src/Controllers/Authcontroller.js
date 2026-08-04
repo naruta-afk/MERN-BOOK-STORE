@@ -1,12 +1,12 @@
-const asyncHandler = require('../middleware/asyncHandler');
-const User = require('../models/User');
-const generateToken = require('../utils/generateToken');
+import asyncHandler from "../middleware/asyncHandler.js";
+import User from "../model/user.js";
+import generateToken from "../Utils/Generatetoken.js";
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -14,7 +14,12 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('User already exists');
   }
 
-  const user = await User.create({ name, email, password });
+  const user = await User.create({
+    name,
+    email,
+    password,
+    role: role || 'user',
+  });
 
   generateToken(res, user._id);
   res.status(201).json({
@@ -88,7 +93,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = {
+export {
   registerUser,
   loginUser,
   logoutUser,
